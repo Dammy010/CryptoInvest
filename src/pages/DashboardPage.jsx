@@ -112,8 +112,8 @@ export default function DashboardPage() {
     if (data.length === 0) return null;
 
     return (
-      <div className="w-full h-80 bg-white p-6 rounded-2xl shadow-md">
-        <h2 className="text-xl font-semibold mb-4 text-center">Portfolio Allocation</h2>
+      <div className="w-full h-80 bg-gray-900 p-6 rounded-2xl shadow-md">
+        <h2 className="text-xl font-semibold mb-4 text-center text-white">Portfolio Allocation</h2>
         <ResponsiveContainer>
           <PieChart>
             <Pie
@@ -128,7 +128,7 @@ export default function DashboardPage() {
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
-            <Tooltip formatter={(value) => `$${value.toFixed(2)}`} />
+            <Tooltip formatter={(value) => `$${value.toFixed(2)}`} contentStyle={{ backgroundColor: "#111", borderColor: "#333" }} />
             <Legend />
           </PieChart>
         </ResponsiveContainer>
@@ -136,62 +136,60 @@ export default function DashboardPage() {
     );
   };
 
- const renderLivePrices = () => (
-  <div className="w-full md:w-72 bg-white p-6 rounded-2xl shadow sticky top-24 h-fit">
-    <h2 className="text-lg font-bold text-center mb-4">Live Prices</h2>
-    <ul className="space-y-4">
-      {coins.slice(0, visibleCount).map((coin) => (
-        <li key={coin.id} className="flex justify-between items-center text-sm">
-          <div className="flex items-center gap-3 w-40 truncate">
-            <img src={coin.image} alt={coin.name} className="w-6 h-6" />
-            <span className="font-medium text-gray-700 truncate">{coin.name}</span>
-          </div>
-          <div className="text-right">
-            <div className="font-semibold text-gray-800">
-              ${coin.current_price.toFixed(2)}
+  const renderLivePrices = () => (
+    <div className="w-full md:w-72 bg-gray-900 text-white p-6 rounded-2xl shadow sticky top-24 h-fit">
+      <h2 className="text-lg font-bold text-center mb-4">Live Prices</h2>
+      <ul className="space-y-4">
+        {coins.slice(0, visibleCount).map((coin) => (
+          <li key={coin.id} className="flex justify-between items-center text-sm">
+            <div className="flex items-center gap-3 w-40 truncate">
+              <img src={coin.image} alt={coin.name} className="w-6 h-6" />
+              <span className="font-medium truncate">{coin.name}</span>
             </div>
-            <div
-              className={`text-xs ${
-                coin.price_change_percentage_24h >= 0 ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              {coin.price_change_percentage_24h.toFixed(2)}%
+            <div className="text-right">
+              <div className="font-semibold">${coin.current_price.toFixed(2)}</div>
+              <div
+                className={`text-xs ${
+                  coin.price_change_percentage_24h >= 0 ? "text-green-400" : "text-red-400"
+                }`}
+              >
+                {coin.price_change_percentage_24h.toFixed(2)}%
+              </div>
             </div>
-          </div>
-        </li>
-      ))}
-    </ul>
+          </li>
+        ))}
+      </ul>
 
-    {coins.length > 5 && (
-      <div className="mt-4 flex justify-center gap-4">
-        <button
-          onClick={() =>
-            setVisibleCount((prev) =>
-              prev + 5 >= coins.length ? coins.length : prev + 5
-            )
-          }
-          disabled={visibleCount >= coins.length}
-          className={`text-blue-600 hover:underline text-sm font-medium ${
-            visibleCount >= coins.length ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          Show More
-        </button>
-        <button
-          onClick={() =>
-            setVisibleCount((prev) => (prev - 5 <= 5 ? 5 : prev - 5))
-          }
-          disabled={visibleCount <= 5}
-          className={`text-red-500 hover:underline text-sm font-medium ${
-            visibleCount <= 5 ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          Show Less
-        </button>
-      </div>
-    )}
-  </div>
-);
+      {coins.length > 5 && (
+        <div className="mt-4 flex justify-center gap-4">
+          <button
+            onClick={() =>
+              setVisibleCount((prev) =>
+                prev + 5 >= coins.length ? coins.length : prev + 5
+              )
+            }
+            disabled={visibleCount >= coins.length}
+            className={`text-blue-400 hover:underline text-sm font-medium ${
+              visibleCount >= coins.length ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
+            Show More
+          </button>
+          <button
+            onClick={() =>
+              setVisibleCount((prev) => (prev - 5 <= 5 ? 5 : prev - 5))
+            }
+            disabled={visibleCount <= 5}
+            className={`text-red-400 hover:underline text-sm font-medium ${
+              visibleCount <= 5 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
+            Show Less
+          </button>
+        </div>
+      )}
+    </div>
+  );
 
   const renderTab = () => {
     const summary = portfolioSummary();
@@ -201,10 +199,10 @@ export default function DashboardPage() {
       return (
         <div className="flex flex-col md:flex-row gap-8">
           <div className="flex-1 space-y-8">
-            <div className="bg-white p-6 rounded-2xl shadow-md flex items-center justify-between">
+            <div className="bg-gray-900 p-6 rounded-2xl shadow-md flex items-center justify-between">
               <div>
-                <h2 className="text-gray-700 text-lg font-medium">Total Portfolio Value</h2>
-                <p className="text-4xl font-bold text-blue-600 mt-1">
+                <h2 className="text-gray-300 text-lg font-medium">Total Portfolio Value</h2>
+                <p className="text-4xl font-bold text-green-400 mt-1">
                   ${totalValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                 </p>
               </div>
@@ -219,16 +217,16 @@ export default function DashboardPage() {
                 return (
                   <div
                     key={coin.id}
-                    className="p-4 bg-white border rounded-2xl shadow hover:shadow-lg transition"
+                    className="p-4 bg-gray-900 border border-gray-700 rounded-2xl shadow hover:shadow-lg transition"
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <div className="text-gray-900 font-semibold">{coin.name}</div>
+                      <div className="text-white font-semibold">{coin.name}</div>
                       <img src={coin.image} alt={coin.name} className="w-6 h-6" />
                     </div>
-                    <div className="text-sm text-gray-500 mb-1">
+                    <div className="text-sm text-gray-400 mb-1">
                       {coin.symbol.toUpperCase()} — {heldAmount} coins
                     </div>
-                    <div className="text-xl font-bold text-green-600">
+                    <div className="text-xl font-bold text-yellow-400">
                       ${value.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                     </div>
                   </div>
@@ -249,12 +247,12 @@ export default function DashboardPage() {
         <div className="space-y-8">
           <form
             onSubmit={handleTransaction}
-            className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white p-6 border rounded-2xl shadow"
+            className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-gray-900 text-white p-6 border border-gray-700 rounded-2xl shadow"
           >
             <select
               value={form.type}
               onChange={(e) => setForm({ ...form, type: e.target.value })}
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 bg-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option>Buy</option>
               <option>Sell</option>
@@ -262,7 +260,7 @@ export default function DashboardPage() {
             <select
               value={form.coin}
               onChange={(e) => setForm({ ...form, coin: e.target.value })}
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 bg-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select Coin</option>
               {coins.map((coin) => (
@@ -277,7 +275,7 @@ export default function DashboardPage() {
               value={form.amount}
               onChange={(e) => setForm({ ...form, amount: e.target.value })}
               placeholder="Amount"
-              className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 bg-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button
               type="submit"
@@ -287,40 +285,41 @@ export default function DashboardPage() {
             </button>
           </form>
 
-          <div className="bg-white p-6 border rounded-2xl shadow">
+          <div className="bg-gray-900 text-white p-6 border border-gray-700 rounded-2xl shadow">
             <h2 className="text-xl font-semibold mb-4">Transaction History</h2>
             {transactions.length === 0 ? (
-              <p className="text-gray-600">No transactions yet.</p>
+              <p className="text-gray-400">No transactions yet.</p>
             ) : (
               <ul className="space-y-3 max-h-72 overflow-y-auto pr-2">
                 {transactions.map((tx, i) => (
                   <li
                     key={i}
-                    className="flex justify-between items-center border-b pb-2 text-sm"
+                    className="flex justify-between items-center border-b border-gray-700 pb-2 text-sm"
                   >
                     <div>
                       <span
                         className={`font-semibold ${
-                          tx.type === "Buy" ? "text-green-600" : "text-red-500"
+                          tx.type === "Buy" ? "text-green-400" : "text-red-400"
                         }`}
                       >
                         {tx.type}
                       </span>{" "}
-                      — {tx.amount} <span className="uppercase">{tx.coin}</span>{" "}
-                      <span className="text-gray-500">
+                      — {tx.amount}{" "}
+                      <span className="uppercase">{tx.coin}</span>{" "}
+                      <span className="text-gray-400">
                         on {new Date(tx.date).toLocaleString()}
                       </span>
                     </div>
                     <div className="flex gap-2">
                       <button
                         onClick={() => editTransaction(i)}
-                        className="text-yellow-600 hover:underline text-xs"
+                        className="text-yellow-400 hover:underline text-xs"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => deleteTransaction(i)}
-                        className="text-red-600 hover:underline text-xs"
+                        className="text-red-400 hover:underline text-xs"
                       >
                         Delete
                       </button>
@@ -338,8 +337,8 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen font-sans">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">💼 Your Crypto Dashboard</h1>
+    <div className="p-6 bg-black min-h-screen font-sans text-white">
+      <h1 className="text-3xl font-bold mb-8 text-green-400">💼 Your Crypto Dashboard</h1>
 
       <div className="mb-8 flex gap-4">
         {["Portfolio", "Transactions"].map((tab) => (
@@ -353,7 +352,7 @@ export default function DashboardPage() {
             className={`px-5 py-2.5 rounded-full text-sm font-medium shadow transition-all ${
               activeTab === tab
                 ? "bg-blue-600 text-white"
-                : "bg-white text-gray-800 hover:bg-gray-200"
+                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
             }`}
           >
             {tab}
